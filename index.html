@@ -459,11 +459,11 @@
                 <div class="row">
                     <div class="form-group">
                         <label for="vorname_${index}">Vorname${isFirst ? req : ''}</label>
-                        <input type="text" id="vorname_${index}" name="${label} - Vorname" ${isFirst ? 'required' : ''} placeholder="Vorname">
+                        <input type="text" id="vorname_${index}" name="${label} - Vorname" ${isFirst ? 'required' : ''} placeholder="Vorname" pattern="[^\d]+" title="Vorname darf keine Zahlen enthalten">
                     </div>
                     <div class="form-group">
                         <label for="familiename_${index}">Familiename${isFirst ? req : ''}</label>
-                        <input type="text" id="familiename_${index}" name="${label} - Familiename" ${isFirst ? 'required' : ''} placeholder="Familiename">
+                        <input type="text" id="familiename_${index}" name="${label} - Familiename" ${isFirst ? 'required' : ''} placeholder="Familiename" pattern="[^\d]+" title="Familiename darf keine Zahlen enthalten">
                     </div>
                 </div>
                 <div class="row-3">
@@ -479,7 +479,7 @@
                     </div>
                     <div class="form-group">
                         <label for="mobile_${index}">Mobilnummer${isFirst ? req : ''}</label>
-                        <input type="tel" id="mobile_${index}" name="${label} - Mobilnummer" ${isFirst ? 'required' : ''} placeholder="+41 78 123 45 67">
+                        <input type="tel" id="mobile_${index}" name="${label} - Mobilnummer" ${isFirst ? 'required' : ''} placeholder="+41 78 123 45 67" pattern="[0-9\+]+" title="Mobilnummer darf nur Zahlen enthalten">
                     </div>
                 </div>
             `;
