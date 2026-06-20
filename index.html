@@ -364,6 +364,7 @@
             const box = document.createElement('div');
             box.className = 'person-box';
 
+            const p = index + 1;
             const isFirst = index === 0;
             const req = ' <span class="required">*</span>';
 
@@ -375,27 +376,27 @@
                 <div class="row">
                     <div class="form-group">
                         <label for="vorname_${index}">Vorname${isFirst ? req : ''}</label>
-                        <input type="text" id="vorname_${index}" name="vorname_${index}" ${isFirst ? 'required' : ''} placeholder="Vorname">
+                        <input type="text" id="vorname_${index}" name="Person ${p} - Vorname" ${isFirst ? 'required' : ''} placeholder="Vorname">
                     </div>
                     <div class="form-group">
                         <label for="familiename_${index}">Familiename${isFirst ? req : ''}</label>
-                        <input type="text" id="familiename_${index}" name="familiename_${index}" ${isFirst ? 'required' : ''} placeholder="Familiename">
+                        <input type="text" id="familiename_${index}" name="Person ${p} - Familiename" ${isFirst ? 'required' : ''} placeholder="Familiename">
                     </div>
                 </div>
                 <div class="row-3">
                     <div class="form-group">
                         <label for="dob_${index}">Geburtsdatum${isFirst ? req : ''}</label>
-                        <input type="date" id="dob_${index}" name="dob_${index}" ${isFirst ? 'required' : ''}>
+                        <input type="date" id="dob_${index}" name="Person ${p} - Geburtsdatum" ${isFirst ? 'required' : ''}>
                     </div>
                     <div class="form-group">
                         <label for="sport_${index}">Sportkategorie${isFirst ? req : ''}</label>
-                        <select id="sport_${index}" name="sport_${index}" ${isFirst ? 'required' : ''}>
+                        <select id="sport_${index}" name="Person ${p} - Sportkategorie" ${isFirst ? 'required' : ''}>
                             ${categories.map(c => `<option value="${c.value}">${c.label}</option>`).join('')}
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="mobile_${index}">Mobilnummer${isFirst ? req : ''}</label>
-                        <input type="tel" id="mobile_${index}" name="mobile_${index}" ${isFirst ? 'required' : ''} placeholder="+41 78 123 45 67">
+                        <input type="tel" id="mobile_${index}" name="Person ${p} - Mobilnummer" ${isFirst ? 'required' : ''} placeholder="+41 78 123 45 67">
                     </div>
                 </div>
             `;
