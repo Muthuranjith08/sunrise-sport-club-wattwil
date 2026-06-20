@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anmeldeformular – Sunrise Sport Club</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px 20px;
+            background: linear-gradient(135deg, #2e7d3228, #dff7061a);
+        }
+
+        .header img {
+            max-width: 650px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 12px;
+        }
+
+        .header h1 {
+            color: #1a3a5c;
+            font-size: 1.8rem;
+            margin-top: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            color: #555;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .form-content {
+            padding: 30px;
+        }
+
+        .person-box {
+            background: #f8faff;
+            border: 1px solid #e0e7f0;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.2s;
+        }
+
+        .person-box:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .person-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a3a5c;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #2d5f8a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .person-title .badge {
+            background: #2d5f8a;
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 400;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 4px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .form-group label .required {
+            color: #e74c3c;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px 12px;
+            border: 1px solid #d0d7e3;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fff;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2d5f8a;
+            box-shadow: 0 0 0 3px rgba(45, 95, 138, 0.15);
+        }
+
+        .form-group input.error,
+        .form-group select.error {
+            border-color: #e74c3c;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 8px 0 18px;
+            font-size: 0.85rem;
+            color: #999;
+            font-style: italic;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2e7d32, #1ba001);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: transform 0.15s, box-shadow 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-submit.loading .btn-text {
+            display: none;
+        }
+
+        .btn-submit.loading .spinner {
+            display: block;
+        }
+
+        .alert {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .alert.success {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            font-size: 1.1rem;
+            padding: 18px 20px;
+            text-align: center;
+        }
+
+        .alert.success .check-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .alert.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 12px 0 16px;
+            padding: 14px 16px;
+            background: #f9fdf9;
+            border: 1px solid #c8e6c9;
+            border-radius: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 1px;
+            accent-color: #2e7d32;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper .check-label {
+            font-size: 0.95rem;
+            color: #333;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 700px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .row-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .header img {
+                max-width: 90%;
+            }
+
+            .form-content {
+                padding: 20px 15px;
+            }
+
+            .person-box {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="sunrise sport club.png" alt="Sunrise Sport Club">
+            <h1>Anmeldeformular</h1>
+            <p>Bitte füllen Sie die Daten aller teilnehmenden Personen aus</p>
+        </div>
+
+        <div class="form-content">
+            <div id="alert" class="alert"></div>
+
+            <form id="registrationForm" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="90f8d83d-807b-4314-bf9c-235bef8923db">
+                <input type="hidden" name="to" value="sunrisesportclubwattwil@gmail.com">
+                <input type="hidden" name="subject" value="Neue Anmeldung Sunrise Sport Club">
+                <input type="hidden" name="from_name" value="Sunrise Sport Club Webformular">
+
+                <div id="personContainer">
+                </div>
+
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" id="confirmCheck">
+                    <span class="check-label">நான் தகவல்களை சரிபார்த்தேன். எல்லா விவரங்களும் சரிதான்.</span>
+                </label>
+
+                <button type="submit" class="btn-submit" id="submitBtn" disabled>
+                    <span class="btn-text">Absenden</span>
+                    <div class="spinner"></div>
+                </button>
+            </form>
+
+            <p class="footer-note">Alle mit * markierten Felder sind Pflichtfelder</p>
+        </div>
+    </div>
+
+    <script>
+        const categories = [
+            { value: "", label: "Bitte wählen..." },
+            { value: "Under 3 (2023-2024)", label: "Under 3 (geb. 2023–2024)" },
+            { value: "Under 5 (2021-2022)", label: "Under 5 (geb. 2021–2022)" },
+            { value: "Under 7 (2019-2020)", label: "Under 7 (geb. 2019–2020)" },
+            { value: "Under 9 (2017-2018)", label: "Under 9 (geb. 2017–2018)" },
+            { value: "Under 11 (2015-2016)", label: "Under 11 (geb. 2015–2016)" },
+            { value: "Under 13 (2013-2014)", label: "Under 13 (geb. 2013–2014)" },
+            { value: "Under 15 (2011-2012)", label: "Under 15 (geb. 2011–2012)" },
+            { value: "Under 17 (2009-2010)", label: "Under 17 (geb. 2009–2010)" },
+            { value: "Under 19 (2007-2008)", label: "Under 19 (geb. 2007–2008)" },
+            { value: "Under 21 (2005-2006)", label: "Under 21 (geb. 2005–2006)" },
+            { value: "22-30 Jahre (1996-2004)", label: "22–30 Jahre (geb. 1996–2004)" },
+            { value: "Über 31 (vor 1995)", label: "Über 31 (geb. vor 1995)" }
+        ];
+
+        const personLabels = ["Person 1", "Person 2", "Person 3", "Person 4"];
+        const personContainer = document.getElementById('personContainer');
+
+        personLabels.forEach((label, index) => {
+            const box = document.createElement('div');
+            box.className = 'person-box';
+
+            const isFirst = index === 0;
+            const req = ' <span class="required">*</span>';
+
+            box.innerHTML = `
+                <div class="person-title">
+                    ${label}
+                    ${isFirst ? '<span class="badge">Erforderlich</span>' : '<span class="badge">Optional</span>'}
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="vorname_${index}">Vorname${isFirst ? req : ''}</label>
+                        <input type="text" id="vorname_${index}" name="vorname_${index}" ${isFirst ? 'required' : ''} placeholder="Vorname">
+                    </div>
+                    <div class="form-group">
+                        <label for="familiename_${index}">Familiename${isFirst ? req : ''}</label>
+                        <input type="text" id="familiename_${index}" name="familiename_${index}" ${isFirst ? 'required' : ''} placeholder="Familiename">
+                    </div>
+                </div>
+                <div class="row-3">
+                    <div class="form-group">
+                        <label for="dob_${index}">Geburtsdatum${isFirst ? req : ''}</label>
+                        <input type="date" id="dob_${index}" name="dob_${index}" ${isFirst ? 'required' : ''}>
+                    </div>
+                    <div class="form-group">
+                        <label for="sport_${index}">Sportkategorie${isFirst ? req : ''}</label>
+                        <select id="sport_${index}" name="sport_${index}" ${isFirst ? 'required' : ''}>
+                            ${categories.map(c => `<option value="${c.value}">${c.label}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile_${index}">Mobilnummer${isFirst ? req : ''}</label>
+                        <input type="tel" id="mobile_${index}" name="mobile_${index}" ${isFirst ? 'required' : ''} placeholder="+41 78 123 45 67">
+                    </div>
+                </div>
+            `;
+
+            personContainer.appendChild(box);
+        });
+
+        const form = document.getElementById('registrationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const alertDiv = document.getElementById('alert');
+        const confirmCheck = document.getElementById('confirmCheck');
+
+        confirmCheck.addEventListener('change', function() {
+            submitBtn.disabled = !this.checked;
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const accessKey = form.querySelector('input[name="access_key"]').value.trim();
+            if (!accessKey) {
+                alertDiv.className = 'alert error';
+                alertDiv.textContent = 'Web3Forms Access Key fehlt.';
+                return;
+            }
+
+            alertDiv.className = 'alert';
+            alertDiv.textContent = '';
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alertDiv.className = 'alert success';
+                    alertDiv.innerHTML = '<span class="check-icon">&#10003;</span> Vielen Dank! Ihre Nachricht wurde gesendet.';
+                    form.reset();
+                    submitBtn.disabled = true;
+                } else {
+                    alertDiv.className = 'alert error';
+                    alertDiv.textContent = 'Fehler beim Senden: ' + (data.message || 'Unbekannter Fehler');
+                }
+            })
+            .catch(err => {
+                alertDiv.className = 'alert error';
+                alertDiv.textContent = 'Netzwerkfehler. Bitte versuche es später erneut.';
+            })
+            .finally(() => {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
