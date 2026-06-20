@@ -525,6 +525,24 @@
 
             const formData = new FormData(form);
 
+            for (let p = 2; p <= 4; p++) {
+                const fields = [
+                    `Person ${p} - Vorname`,
+                    `Person ${p} - Familiename`,
+                    `Person ${p} - Geburtsdatum`,
+                    `Person ${p} - Sportkategorie`,
+                    `Person ${p} - Mobilnummer`
+                ];
+                const hasData = fields.some(name => {
+                    const val = formData.get(name);
+                    return val && val.trim() !== '';
+                });
+                if (!hasData) {
+                    fields.forEach(name => formData.delete(name));
+                    formData.delete(`=== Person ${p} ===`);
+                }
+            }
+
             fetch(form.action, {
                 method: 'POST',
                 body: formData,
