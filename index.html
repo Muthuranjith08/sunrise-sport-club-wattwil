@@ -272,6 +272,79 @@
             cursor: pointer;
         }
 
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal-box {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px 36px 30px;
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+            animation: scaleIn 0.25s ease;
+        }
+
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #2e7d32;
+            color: #fff;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .modal-box p {
+            font-size: 1.05rem;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #2e7d32, #66bb6a);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 36px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+
+        .modal-btn:hover {
+            box-shadow: 0 4px 14px rgba(46, 125, 50, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
         .footer-note {
             text-align: center;
             font-size: 0.8rem;
@@ -337,6 +410,14 @@
             </form>
 
             <p class="footer-note">Alle mit * markierten Felder sind Pflichtfelder</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <div class="modal-icon">&#10003;</div>
+            <p>Vielen Dank!<br>Ihre Nachricht wurde gesendet.</p>
+            <button class="modal-btn" id="modalOkBtn">OK</button>
         </div>
     </div>
 
@@ -409,6 +490,18 @@
         const submitBtn = document.getElementById('submitBtn');
         const alertDiv = document.getElementById('alert');
         const confirmCheck = document.getElementById('confirmCheck');
+        const successModal = document.getElementById('successModal');
+        const modalOkBtn = document.getElementById('modalOkBtn');
+
+        modalOkBtn.addEventListener('click', function() {
+            successModal.classList.remove('visible');
+        });
+
+        successModal.addEventListener('click', function(e) {
+            if (e.target === successModal) {
+                successModal.classList.remove('visible');
+            }
+        });
 
         confirmCheck.addEventListener('change', function() {
             submitBtn.disabled = !this.checked;
@@ -439,10 +532,9 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    alertDiv.className = 'alert success';
-                    alertDiv.innerHTML = '<span class="check-icon">&#10003;</span> Vielen Dank! Ihre Nachricht wurde gesendet.';
                     form.reset();
                     submitBtn.disabled = true;
+                    successModal.classList.add('visible');
                 } else {
                     alertDiv.className = 'alert error';
                     alertDiv.textContent = 'Fehler beim Senden: ' + (data.message || 'Unbekannter Fehler');
