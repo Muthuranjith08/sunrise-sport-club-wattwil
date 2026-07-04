@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -199,7 +200,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .btn-submit.loading .btn-text {
@@ -275,8 +278,10 @@
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.45);
             justify-content: center;
             align-items: center;
@@ -336,13 +341,25 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes scaleIn {
-            from { transform: scale(0.85); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.85);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .footer-note {
@@ -379,6 +396,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -401,7 +419,7 @@
                 <label class="checkbox-wrapper">
                     <input type="checkbox" id="confirmCheck">
                     <span class="check-label">நான் தகவல்களை சரிபார்த்தேன். எல்லா விவரங்களும் சரிதான்.
-                        பிரிவு தொடர்பான முறைப்பாடுகள் வரும்பட்சத்தில் பரிசோதிக்க அனுமதிப்கப்படுவேன். 
+                        பிரிவு தொடர்பான முறைப்பாடுகள் வரும்பட்சத்தில் பரிசோதிக்க அனுமதிக்கிறேன்.
                         (தரப்பட்ட தரவுகள் அனைத்தும் உண்மையானவை)
                     </span>
                 </label>
@@ -497,21 +515,21 @@
         const successModal = document.getElementById('successModal');
         const modalOkBtn = document.getElementById('modalOkBtn');
 
-        modalOkBtn.addEventListener('click', function() {
+        modalOkBtn.addEventListener('click', function () {
             successModal.classList.remove('visible');
         });
 
-        successModal.addEventListener('click', function(e) {
+        successModal.addEventListener('click', function (e) {
             if (e.target === successModal) {
                 successModal.classList.remove('visible');
             }
         });
 
-        confirmCheck.addEventListener('change', function() {
+        confirmCheck.addEventListener('change', function () {
             submitBtn.disabled = !this.checked;
         });
 
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function (e) {
             e.preventDefault();
 
             const accessKey = form.querySelector('input[name="access_key"]').value.trim();
@@ -551,26 +569,27 @@
                 body: formData,
                 headers: { 'Accept': 'application/json' }
             })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    form.reset();
-                    submitBtn.disabled = true;
-                    successModal.classList.add('visible');
-                } else {
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        form.reset();
+                        submitBtn.disabled = true;
+                        successModal.classList.add('visible');
+                    } else {
+                        alertDiv.className = 'alert error';
+                        alertDiv.textContent = 'Fehler beim Senden: ' + (data.message || 'Unbekannter Fehler');
+                    }
+                })
+                .catch(err => {
                     alertDiv.className = 'alert error';
-                    alertDiv.textContent = 'Fehler beim Senden: ' + (data.message || 'Unbekannter Fehler');
-                }
-            })
-            .catch(err => {
-                alertDiv.className = 'alert error';
-                alertDiv.textContent = 'Netzwerkfehler. Bitte versuche es später erneut.';
-            })
-            .finally(() => {
-                submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
-            });
+                    alertDiv.textContent = 'Netzwerkfehler. Bitte versuche es später erneut.';
+                })
+                .finally(() => {
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                });
         });
     </script>
 </body>
+
 </html>
